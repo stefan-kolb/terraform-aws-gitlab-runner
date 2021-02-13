@@ -38,7 +38,7 @@ resource "null_resource" "remove_runner" {
 }
 
 locals {
-  enable_asg_recreation = var.enable_forced_updates != null ? ! var.enable_forced_updates : var.enable_asg_recreation
+  enable_asg_recreation = var.enable_forced_updates != null ? !var.enable_forced_updates : var.enable_asg_recreation
 
   template_user_data = templatefile("${path.module}/template/user-data.tpl",
     {
@@ -74,7 +74,7 @@ locals {
       gitlab_runner_access_level              = lookup(var.gitlab_runner_registration_config, "access_level", "not_protected")
   })
 
-  template_runner_config = templatefile("${path.module}/template/runner-config.tpl",
+  template_runner_config = var.gitlab_runner_config_file != "" ? var.gitlab_runner_config_file : templatefile("${path.module}/template/runner-config.tpl",
     {
       aws_region                  = var.aws_region
       gitlab_url                  = var.runners_gitlab_url
@@ -122,7 +122,7 @@ locals {
       runners_root_size                 = var.runners_root_size
       runners_iam_instance_profile_name = var.runners_iam_instance_profile_name
       runners_use_private_address_only  = var.runners_use_private_address
-      runners_use_private_address       = ! var.runners_use_private_address
+      runners_use_private_address       = !var.runners_use_private_address
       runners_request_spot_instance     = var.runners_request_spot_instance
       runners_environment_vars          = jsonencode(var.runners_environment_vars)
       runners_pre_build_script          = var.runners_pre_build_script

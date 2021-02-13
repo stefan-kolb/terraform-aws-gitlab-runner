@@ -400,6 +400,12 @@ variable "gitlab_runner_security_group_description" {
   default     = "A security group containing gitlab-runner agent instances"
 }
 
+variable "gitlab_runner_config_file" {
+  description = "Supply the contents of the config.toml directly via file() or template_file()"
+  type        = string
+  default     = ""
+}
+
 variable "enable_cloudwatch_logging" {
   description = "Boolean used to enable or disable the CloudWatch logging."
   type        = bool
