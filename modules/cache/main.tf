@@ -65,7 +65,7 @@ resource "aws_s3_bucket" "build_cache" {
 resource "aws_s3_bucket_public_access_block" "build_cache_policy" {
   count = var.create_cache_bucket ? 1 : 0
   
-  bucket = build_cache.id
+  bucket = aws_s3_bucket.build_cache[0].id
 
   block_public_acls       = true
   block_public_policy     = true
